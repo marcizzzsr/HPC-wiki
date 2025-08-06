@@ -1,3 +1,5 @@
+[[_TOC_]]
+
 # Binds
 https://apptainer.org/docs/user/main/bind_paths_and_mounts.html
 
@@ -74,20 +76,22 @@ tree
 #    └── monai_1_5_0_custom.sif
 ```
 
-## Build `.sif` from `.def` (avoid unless strictly necessary)
+## Build `.sif` from `.def`
+<blockquote style="background: #fcf8e3; padding: 16px; border-left: 5px solid #f0ad4e; color: #8a6d3b;">
+    <h3 style="margin-top: 0; color: #f0ad4e;">⚠️ Warning</h3>
+    <p style="margin-bottom: 0;"><b>This option should be avoided unless strictly necessary!</b></p>
+</blockquote>
 
-Start interactive slurm session:
+First be sure to **start an interactive slurm session**:
 
 ```bash
-srun -p interactive --mem=32g --cpus-per-task=16 --pty bash
+srun -p interactive --mem=16 --cpus-per-task=8 --pty bash
 ```
 
 Build `.sif` from `.def`:
 
 ```
-cd /mnt/data/unisr-data/apptainer_images/def/monai_1_5_0_custom/
-
-apptainer build --ignore-fakeroot-command /mnt/data/unisr-data/apptainer_images/sif/monai_1_5_0_custom.sif monai_1_5_0_custom.def
+apptainer build --ignore-fakeroot-command <path-to-sif> <path-to-def>
 ```
 
 Freeze the Python environment of a `.sif` (recommended for facilitating reporting):
@@ -98,8 +102,16 @@ cd /mnt/data/unisr-data/apptainer_images/sif/
 apptainer exec monai_1_5_0_custom.sif pip freeze > /mnt/data/unisr-data/apptainer_images/def/monai_1_5_0_custom/pip_freeze.txt
 ```
 
-Exit slurm session:
+## Docker support
+If possible, we advise to build images using Docker (granted you have it installed on your local machine), due to more accessible resources online. Apptainer allows to build images directly from docker ones.
 
+If you find an image of interest in [Docker Hub](https://hub.docker.com), you can transform it into a sif euqivalent using:
 ```
-exit
+apptainer pull <image-name>.sif docker://user/image:tag
+```
+
+Or, if you want to extend it, start your `.def` file with:
+```
+Bootstrap: docker
+From: user/image:tag
 ```
