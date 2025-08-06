@@ -1,5 +1,3 @@
-
-
 # Binds
 https://apptainer.org/docs/user/main/bind_paths_and_mounts.html
 
@@ -56,3 +54,52 @@ If you're looking to open a shell inside your image, use `apptainer shell` inste
 This command directly executes the content of the `%runscript` section in the `.def` file of the Apptainer image. Therefore, it does not expect any additional command after the execution options.
 ## `apptainer shell`
 This command is virtually equivalent to running apptainer exec with the `/bin/bash` command: it opens an interactive shell inside the specified image and ignores the commands defined in the `%runscript`.
+
+# Images
+
+You can find pre-built images at `/mnt/data/unisr-data/apptainer_images/`; please avoid building new ones unless strictly necessary.
+
+In `/mnt/data/unisr-data/apptainer_images/sif`, you’ll find a list of curated `.sif` files, which are pre-built images. In `/mnt/data/unisr-data/apptainer_images/def`, there is a subfolder for each build. Within each subfolder, you’ll find the `.def` file and any additional requirements that were used to create the corresponding `.sif` file.
+
+```bash
+cd /mnt/data/unisr-data/apptainer_images
+tree
+#.
+#├── def
+#│   └── monai_1_5_0_custom
+#│       ├── monai_1_5_0_custom.def
+#│       ├── pip_freeze.txt
+#│       └── requirements.txt
+#└── sif
+#    └── monai_1_5_0_custom.sif
+```
+
+## Build `.sif` from `.def` (avoid unless strictly necessary)
+
+Start interactive slurm session:
+
+```bash
+srun -p interactive --mem=32g --cpus-per-task=16 --pty bash
+```
+
+Build `.sif` from `.def`:
+
+```
+cd /mnt/data/unisr-data/apptainer_images/def/monai_1_5_0_custom/
+
+apptainer build --ignore-fakeroot-command /mnt/data/unisr-data/apptainer_images/sif/monai_1_5_0_custom.sif monai_1_5_0_custom.def
+```
+
+Freeze the Python environment of a `.sif` (recommended for facilitating reporting):
+
+```
+cd /mnt/data/unisr-data/apptainer_images/sif/
+
+apptainer exec monai_1_5_0_custom.sif pip freeze > /mnt/data/unisr-data/apptainer_images/def/monai_1_5_0_custom/pip_freeze.txt
+```
+
+Exit slurm session:
+
+```
+exit
+```
