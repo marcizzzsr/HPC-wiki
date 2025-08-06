@@ -56,3 +56,77 @@ To terminate a job, you need its `<job_id>`. Example steps:
 If you want to terminate **all your jobs**, use `scancel -u $USER`.
 
 Once termination is requested, the job will enter the `CG` state (*completing*) and may take up to 30 seconds to fully stop and disappear from `squeue`.
+
+# Run training scripts
+
+We recommend using option A. We report options B and C for educational and debugging purposes.
+
+## A) Run apptainer workload directly with slurm batch
+
+Submit batch job to run script inside apptainer with GPU support and bind mount:
+
+```
+sbatch -p cuda --gpus 1 --mem=32g --cpus-per-task=16--wrap "cd /mnt/data/unisr-data/test_script_gpu/work/ && apptainer exec --nv --bind /mnt/scratch/unisr-data/data/ccta:/mnt/scratch/unisr-data/data/ccta monai.sif python train.py"
+```
+
+- If multiple GPUs are required, just ask for more resources with sbatch (`--gpus 2`) + obviously adapt the script for parallel computing.
+- Slurm will automatically assign you the available workstation. If you wish to manually select it, add `-w workstation-ai-01` (or `-w workstation-ai-02`) just before `--wrap`.
+- The above command should return the progressive identifier of the job, hereafter referred to as `{job_id}`. By default, Slurm creates a log in the current working directory, following the pattern `slurm-{job_id}.out`.
+
+Monitor job output:
+
+```
+tail -f slurm-{job_id}.out
+```
+
+## B) Run apptainer workload from interactive slurm session
+
+Start interactive slurm session with GPU resources:
+
+```
+srun -p interactive --gpus 1 --mem=32g --cpus-per-task=16 --pty bash
+```
+
+Run python script directly inside apptainer container with GPU support and bind mount:
+
+```
+apptainer exec --nv --bind /mnt/scratch/unisr-data/data/ccta:/mnt/scratch/unisr-data/data/ccta monai.sif python train.py
+```
+
+Exit slurm session:
+
+```
+exit
+```
+
+## C) Run python script from shell within interactive slurm session + interactive apptainer session
+
+Start interactive slurm session with GPU resources:
+
+```
+srun -p interactive --gpus 1 --mem=32g --cpus-per-task=16 --pty bash
+```
+
+Launch interactive apptainer container with GPU support and bind mount
+
+```
+apptainer run --nv --bind /mnt/scratch/unisr-data/data/ccta:/mnt/scratch/unisr-data/data/ccta monai.sif
+```
+
+Run python script inside the container:
+
+```
+python train.py
+```
+
+Exit apptainer session:
+
+```
+exit
+```
+
+Exit slurm session:
+
+```
+exit
+```
