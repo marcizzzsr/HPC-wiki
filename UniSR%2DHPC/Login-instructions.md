@@ -1,6 +1,10 @@
-# Connecting to Our Server via SSH
+# Connecting to the cluster via SSH
 
-To connect to our server, use the following SSH command in your terminal or command prompt:
+To connect to our cluster, first establish a suitable VPN connection, currently the ones supported are:
+- HSR VPN 
+- S-RACE Azure VPN P2S
+
+Use the following SSH command in your terminal or command prompt:
 
 ```bash
 ssh surname.name@hsr.it@10.64.79.72
@@ -30,6 +34,7 @@ Host hsr-server
     HostName 10.64.79.72
     User surname.name@hsr.it
 ```
+You can choose the host config name to be whatever you want, here we used `hsr-server` as an example.
 
 ### Step 3: Save and close the file
 
