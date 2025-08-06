@@ -21,35 +21,3 @@ Select source directory for datasync:
 2) /mnt/beegfs/scratch/unisr-data/jupyter_datasync (SSD storage)
 ```
 Finally, copy the address (the first one located after `Jupyter Server 2.14.2 is running at:`) and paste it into a browser.
-
-# Helpers and basic commands
-
-Check slurm queue:
-
-```
-squeue
-```
-
-Delete slurm job
-
-```
-scancel {job_id}
-```
-
-Check directory size:
-
-```
-du -sh ccta
-```
-
-Diff:
-
-```
-diff --color train_1.py train_2.py
-```
-
-Dependencies of a pip library:
-
-```bash
-curl https://pypi.org/pypi/feature-engine/1.8.3/json | jq '.info.requires_dist'
-```
