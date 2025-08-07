@@ -1,3 +1,5 @@
+[[_TOC_]]
+
 # Partitions
 
 A partition in a SLURM system is a logical group of nodes where **jobs** can be submitted.
