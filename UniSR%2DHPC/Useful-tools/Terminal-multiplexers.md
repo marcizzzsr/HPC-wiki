@@ -1,3 +1,18 @@
+# Introduction to Terminal Multiplexers
+
+A **terminal multiplexer** is a powerful command-line tool that allows you to manage multiple terminal sessions within a single window. Think of it as a tiling window manager specifically for your command-line interface.
+
+The core purpose of a terminal multiplexer is to provide two key functionalities:
+1.  **Session Persistence:** This is a crucial feature, especially when working on remote servers via SSH. A terminal multiplexer allows you to "detach" from a running session and then "reattach" to it later, from the same or a different computer. This means that if your network connection drops, any running programs or long processes within that session will continue to execute in the background, untouched.
+    
+2.  **Window and Pane Management:** Terminal multiplexers enable you to split a single terminal window into multiple, separate sections (called "panes") and create multiple "windows" within a single session. This is incredibly useful for multitasking, as you can monitor logs in one pane, edit a file in another, and run a command in a third, all without having to switch between different applications or terminal tabs.
+    
+In short, a terminal multiplexer is an essential tool for developers, system administrators, and power users who need to maintain an organized and persistent command-line environment, especially in remote or long-running tasks.
+
+All the following multiplexers are installed on the system.
+
+***
+
 # Tmux
 **Tmux** (Terminal Multiplexer) is a program that enables users to create and manage multiple terminal sessions from a single window. It's a powerful tool for developers, system administrators, and anyone who frequently uses the command line.
 
