@@ -43,7 +43,7 @@ The UniSR GPU cluster consists of two workstations, each equipped with two NVIDI
 
 ## Core Technologies
 
-- **[SLURM Workload Manager](/UniSR%2DHPC/SLURM-%2D-Cheatsheets)** - Job scheduling, partitions, and resource allocation
+- **[SLURM Workload Manager](/UniSR%2DHPC/SLURM)** - Job scheduling, partitions, and resource allocation
 
 - **[Apptainer Containers](/UniSR%2DHPC/Apptainer)** - Containerization for reproducible environments
 
