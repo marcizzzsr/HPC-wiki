@@ -1,5 +1,7 @@
 [[_TOC_]]
 
+---
+
 # Binds
 https://apptainer.org/docs/user/main/bind_paths_and_mounts.html
 
@@ -44,8 +46,12 @@ The resulting container will behave similarly to:
 $ docker run -it my_container /bin/bash
 ```
 
+---
+
 # Permissions
 Apptainer containers inherit user permissions from the host system. This means that any action taken inside the container (file creation, modification, deletion) will follow the same permissions as if performed directly on the host system. The user inside the container is the same user who invoked the command outside the container, and therefore maintains the same access rights to mounted directories and files.
+
+---
 
 # Run commands
 ## `apptainer exec`
@@ -56,6 +62,8 @@ If you're looking to open a shell inside your image, use `apptainer shell` inste
 This command directly executes the content of the `%runscript` section in the `.def` file of the Apptainer image. Therefore, it does not expect any additional command after the execution options.
 ## `apptainer shell`
 This command is virtually equivalent to running apptainer exec with the `/bin/bash` command: it opens an interactive shell inside the specified image and ignores the commands defined in the `%runscript`.
+
+---
 
 # Images
 
@@ -79,7 +87,7 @@ tree
 ## Build `.sif` from `.def`
 <blockquote style="background: #fcf8e3; padding: 16px; border-left: 5px solid #f0ad4e; color: #8a6d3b;">
     <h3 style="margin-top: 0; color: #f0ad4e;">⚠️ Warning</h3>
-    <p style="margin-bottom: 0;"><b>This option should be avoided unless strictly necessary!</b></p>
+    <p style="margin-bottom: 0;"><b>This option should be avoided unless strictly necessary!</b> Please check the <a href="/UniSR%2DHPC/Apptainer/Containers-best-practices">Containers best practices</a> guidelines before proceeding.</p>
 </blockquote>
 
 First be sure to **start an interactive slurm session**:
