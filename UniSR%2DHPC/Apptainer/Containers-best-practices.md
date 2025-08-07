@@ -1,3 +1,6 @@
+[[_TOC_]]
+
+
 # Container Best Practices
 
 Containers should be **reproducible, efficient, and purpose-aligned**. This guide outlines how to choose, extend, and build containers responsibly on our system. Whether you're starting from scratch or building on an existing image, the goal is the same: **clarity, modularity, and maintainability**.
@@ -43,6 +46,51 @@ Please, **avoid stretching the purpose of an existing image just to save a few s
   </p>
 </div>
 
+***
+Here's the additional section you can seamlessly add to your existing guide. It explains **how and why to use binds (mounts)** in a containerized workflow, in line with the same tone and structure you're already using:
+
+* * *
+
+Use Binds for Flexibility, Not Hardcoding
+-----------------------------------------
+
+A container should encapsulate an **environment**, not your current code, experimental parameters, or data snapshots. Hardcoding logic, scripts, or one-off variables directly into your container image makes it harder to debug, reproduce, or update your work.
+Instead, use **binds (also called mounts)** to expose local directories, datasets, or source code to your container at runtime. This keeps your image clean, flexible, and reusable.
+**Typical bind use cases:**
+*   Mounting your working directory (source code, notebooks)
+    
+*   Accessing datasets or output folders
+    
+*   Passing in configuration files or model checkpoints
+    
+For example, with Apptainer:
+
+    apptainer exec --bind /path/to/code:/workspace \
+                   --bind /data:/mnt/data \
+                   mycontainer.sif python /workspace/train.py --config /mnt/data/config.yaml
+    
+
+This way:
+*   Your container image stays stable and reproducible
+    
+*   You can iterate on your code without rebuilding the image
+    
+*   You keep a clean separation between environment and logic
+
+<div style="background-color: #fcebea; border-left: 6px solid #c62828; padding: 12px; margin: 16px 0; border-radius: 4px;">
+  <strong style="color: #c62828;">❌ Avoid </strong>
+  <p style="margin: 8px 0 0;">
+
+<ul>
+ <li>Copying your working scripts directly into the container</li>
+<li>Baking experimental logic into image layers</li>
+<li>Committing hardcoded paths inside your container logic</li>
+</ul>
+  </p>
+</div>
+
+    
+Treat your container like a controlled lab setup — always prepared, always clean — and bring your code and data into it as needed.
 
 * * *
 
