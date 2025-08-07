@@ -1,4 +1,4 @@
-# 🧱 Containers for Dummies: A Beginner's Guide
+# Containers for Dummies: A Beginner's Guide
 
 Welcome! If you're new to containers, this guide is for you. Whether you're a developer, researcher, or just curious about how software runs these days, we'll break down the concepts in a simple, tool-agnostic way.
 
