@@ -87,7 +87,7 @@ tree
 ## Build `.sif` from `.def`
 <blockquote style="background: #fcf8e3; padding: 16px; border-left: 5px solid #f0ad4e; color: #8a6d3b;">
     <h3 style="margin-top: 0; color: #f0ad4e;">⚠️ Warning</h3>
-    <p style="margin-bottom: 0;"><b>This option should be avoided unless strictly necessary!</b> Please check the <a href="/UniSR%2DHPC/Apptainer/Containers-best-practices">Containers best practices</a> guidelines before proceeding.</p>
+    <p style="margin-bottom: 0;"><b>This option should be avoided unless strictly necessary!</b> Please check the <a href="https://dev.azure.com/HSREMIC/UniSR-HPC/_wiki/wikis/UniSR-HPC.wiki/3129/Containers-best-practices">Containers best practices</a> guidelines before proceeding.</p>
 </blockquote>
 
 First be sure to **start an interactive slurm session**:
