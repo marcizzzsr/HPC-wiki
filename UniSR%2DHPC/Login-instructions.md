@@ -1,5 +1,14 @@
 # Connecting to the cluster via SSH
 
+
+<div style="background-color: #e8f1fa; border-left: 6px solid #1565c0; padding: 12px; margin: 16px 0; border-radius: 4px;">
+  <strong style="color: #1565c0;">ℹ️ Info</strong>
+  <p style="margin: 8px 0 0;">
+  In order to connect to our cluster you need to be granted access from our IT Team first. Please, reach out to them in order to configure your account.
+  </p>
+</div>
+
+
 To connect to our cluster, first establish a suitable VPN connection, currently the ones supported are:
 - HSR VPN 
 - S-RACE Azure VPN P2S
