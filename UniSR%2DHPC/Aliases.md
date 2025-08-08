@@ -22,4 +22,4 @@ Set a better command prompt for apptainer sessions, substitutes the standard app
 ```bash
 alias apptainer='APPTAINERENV_PS1="\[\e[38;5;129m\]\u@\h-Apptainer\[\e[0m\]:\[\e[38;5;33m\]\w\[\e[0m\]\$ " apptainer'
 ```
-(style yours [here](https://bash-prompt-generator.org/) if you are a customization geek, than paste it after     `APPTAINERENV_PS1=`)
+(if you are a customization geek, you can style yours [here](https://bash-prompt-generator.org/) , than paste it after `APPTAINERENV_PS1=`)
