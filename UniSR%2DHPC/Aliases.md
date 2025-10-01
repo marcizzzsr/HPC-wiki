@@ -17,9 +17,24 @@ Lunch an interactive slurm container with minimum options (8 cores, 16GB RAM, no
 alias srun-i='srun -p interactive --mem=16 --cpus-per-task=8 --pty bash'
 ```
 
-# `apptainer`
-Set a better command prompt for apptainer sessions, substitutes the standard apptainer command:
+# Color coded prompts
+It can be tricky to understand where you are actually writing shell commands into: am I on login node? or maybe in an Apptainer container? A straightforward method to understand where you are is to change the color of the prompt depending on the context. Add the following lines in your `.bashrc` file:
 ```bash
-alias apptainer='APPTAINERENV_PS1="\[\e[38;5;129m\]\u@\h-Apptainer\[\e[0m\]:\[\e[38;5;33m\]\w\[\e[0m\]\$ " apptainer'
+if [ "$color_prompt" = yes ]; then
+        if [[ -n "$SLURM_JOB_ID" ]]; then
+                PS1='\[\e[94;43;1m\]SLURM\[\e[0m\] ${debian_chroot:+($debian_chroot)}\[\e[94;1m\]\u\[\e[97m\]@\[\e[94m\]\h\[\e[0;97m\]:\[\e[92;1m\]\w\[\e[0;97m\]\$\[\e[0m\] '
+        else
+                PS1='\[\e[94;47;1m\]Login\[\e[0m\] ${debian_chroot:+($debian_chroot)}\[\e[94;1m\]\u\[\e[97m\]@\[\e[94m\]\h\[\e[0;97m\]:\[\e[92;1m\]\w\[\e[0;97m\]\$\[\e[0m\] '
+        fi
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+export APPTAINERENV_PS1='\[\e[97;41m\]Apptainer\[\e[0m\] ${debian_chroot:+($debian_chroot)}\[\e[94;1m\]\u\[\e[97m\]@\[\e[94m\]\h\[\e[0;97m\]:\[\e[92;1m\]\w\[\e[0;97m\]\$\[\e[0m\] '
+unset color_prompt force_color_prompt
+
 ```
-(if you are a customization geek, you can style yours [here](https://bash-prompt-generator.org/) , than paste it after `APPTAINERENV_PS1=`)
+
+This will render you prompt something like this:
+![image.png](/.attachments/image-6b549b53-393f-4055-b02b-c2c5264908ff.png)
+
+(if you are a customization geek, you can style yours [here](https://bash-prompt-generator.org/))
