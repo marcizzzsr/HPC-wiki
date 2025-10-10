@@ -18,11 +18,13 @@ The UniSR GPU cluster consists of two workstations, each equipped with two NVIDI
 
 1. **Connect to VPN** - Ensure you're connected to the provided VPN
 
-2. **SSH Access** - Use `ssh surname.name@hsr.it@10.64.79.72` to connect
+1. **SSH Access** - Use `ssh surname.name@hsr.it@10.64.79.72` to connect
 
-3. **Check Resource Availability** - Review the shared spreadsheet for resource booking
+1. **Check Resource Availability** - Review the shared spreadsheet for resource booking
 
-4. **Submit Jobs** - Use SLURM workload manager to run your computational tasks
+1. **Develop your code** - Start your preferred development environment from the ones available
+
+1. **Submit Jobs** - Use SLURM workload manager to run your computational tasks
 
  ---
 
@@ -52,6 +54,7 @@ The UniSR GPU cluster consists of two workstations, each equipped with two NVIDI
 ## Practical Usage
 - **[Useful tools](/UniSR%2DHPC/Useful-tools)** -Find useful tools to make your life easier on the cluster
 - **[Shell Aliases](/UniSR%2DHPC/Useful-.bashrc-settings)** - Useful command shortcuts and productivity tips
+- **[Development tools](/UniSR%2DHPC/Development-tools)** - Start an interactive SLURM job + Apptainer container running your desired dev environment
 
   
 ---
