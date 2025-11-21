@@ -1,4 +1,19 @@
+This is a simple Apptainer cheatsheet that gathers hands-on knowledge that we gained by using it. For further and in-depth details, please refer to the official [Apptainer API guide](https://apptainer.org/docs/user/main/index.html).
+
 [[_TOC_]]
+
+---
+
+# Images
+https://apptainer.org/docs/user/main/definition_files.html
+https://apptainer.org/docs/user/main/build_a_container.html
+todo
+
+---
+
+# Sandbox
+https://apptainer.org/docs/user/main/build_a_container.html#sandbox
+todo
 
 ---
 
@@ -12,12 +27,7 @@ Apptainer's default behavior differs from Docker. Once a container is launched, 
 - `/var/tmp`
 - Other directories depending on the admin's configuration (e.g., `/scratch`, `/data`, etc.)
 
-To disable these automatic binds, you can use the `--no-mount` flag followed by the directories you want to exclude (e.g., `home,cwd`). For example:
-```shell
-$ apptainer shell --no-mount home my_container.sif
-# Or
-$ apptainer shell --no-home my_container.sif
-```
+To disable these automatic binds, you can use the `--no-mount` flag followed by the directories you want to exclude (e.g., `home,cwd`). See [here](#simulating-docker-behavior) for further details.
 
 ## How to bind a directory
 To explicitly bind a directory into the container, use the `--bind` or `-B` flag:
@@ -35,7 +45,8 @@ $ apptainer shell --bind /home/usr/project/uc-1/data:/mnt/data my_container.sif
 Apptainer will create the `/mnt/data` directory and any missing parent directories inside the container. All data from `/home/usr/project/uc-1/data` will then be accessible inside the container at that path.
 
 ## Simulating Docker behavior
-To simulate Docker-style isolated container execution—i.e., prevent any automatic bind mounts and thus avoid any impact on the local system unless explicitly specified—you can use the `--containall` (or `-c`) flag. This flag creates temporary directories for `$HOME`, `/tmp`, and `/var/tmp` which will be automatically deleted once the container is closed.
+https://apptainer.org/docs/user/main/docker_and_oci.html#docker-like-compat-flag
+To simulate Docker-style isolated container execution—i.e., prevent any automatic bind mounts and thus avoid any impact on the local system unless explicitly specified—you can use the `--containall` (`-c`) or `--compat` flag. This flag creates temporary directories for `$HOME`, `/tmp`, and `/var/tmp` which will be automatically deleted once the container is closed.
 
 ```Shell
 $ apptainer shell --containall my_container.sif
@@ -47,9 +58,35 @@ $ docker run -it my_container /bin/bash
 ```
 
 ---
+# Overlays
+https://apptainer.org/docs/user/main/persistent_overlays.html
+
+Apptainer uses overlays to allow the temporary extension of an image at runtime. An overlay can be seen as a layer that gets added to the image filesystem and can be either _read-only_ or _writable_.
+
+A persistent overlay is a directory or file system image that “sits on top” of your immutable SIF container. When you install new software or create and modify files in non-binded directories the overlay will store the changes.
+
+**Apptainer only allows one writable overlay per container, hence specifying multiple writable overlay while running an image will result in an error. Conversely, more than one read-only overlays can be specified at runtime.**
+
+## How to use
+You first need to create an overlay by specifying its path and size. For example, to create a 1 GiB overlay image:
+```shell
+apptainer overlay create --size 1024 /tmp/ext3_overlay.img
+```
+
+If you want to avoid allocating the full disk space size associated with the overlay, and allow it to grow as you save files to it, just add the `--sparse` keyword:
+```shell
+apptainer overlay create --sparse --size 1024 /tmp/ext3_overlay.img
+```
+
+After that, you can use your overlay in writable mode with any of the [run commands](#run-commands) or in read-only mode just by specifying the path with `<path-to-overlay>:ro`, for example:
+```shell
+apptainer shell --overlay <path-to-overlay> <path-to-image.sif>
+```
+
+---
 
 # Permissions
-Apptainer containers inherit user permissions from the host system. This means that any action taken inside the container (file creation, modification, deletion) will follow the same permissions as if performed directly on the host system. The user inside the container is the same user who invoked the command outside the container, and therefore maintains the same access rights to mounted directories and files.
+Apptainer containers inherit user permissions from the host system. This means that any action taken inside the container (file creation, modification, deletion) will follow the same permissions as if performed directly on the host system. **The user inside the container is the same user who invoked the command outside the container, and therefore maintains the same access rights to mounted directories and files.**
 
 ---
 
@@ -66,6 +103,7 @@ This command is virtually equivalent to running apptainer exec with the `/bin/ba
 ---
 
 # Images
+**OUTDATED SECTION, check https://github.com/AI-UniSR/apptainer-image-registry**
 
 You can find pre-built images at `/mnt/data/unisr-data/apptainer_images/`; please avoid building new ones unless strictly necessary.
 
@@ -108,6 +146,8 @@ apptainer exec monai_1_5_0_custom.sif pip freeze > /mnt/data/unisr-data/apptaine
 ```
 
 ## Docker support
+https://apptainer.org/docs/user/main/docker_and_oci.html
+
 If possible, we advise to build images using Docker (granted you have it installed on your local machine), due to more accessible resources online. Apptainer allows to build images directly from docker ones.
 
 If you find an image of interest in [Docker Hub](https://hub.docker.com), you can transform it into a sif euqivalent using:
