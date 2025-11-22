@@ -53,7 +53,7 @@ The UniSR GPU cluster consists of two workstations, each equipped with two NVIDI
 
 ## Practical Usage
 - **[Useful tools](/UniSR%2DHPC/Useful-tools)** -Find useful tools to make your life easier on the cluster
-- **[Shell Aliases](/UniSR%2DHPC/Useful-.bashrc-settings)** - Useful command shortcuts and productivity tips
+- **[Shell Aliases](/UniSR%2DHPC/Useful-tools/Useful-.bashrc-settings)** - Useful command shortcuts and productivity tips
 - **[Development tools](/UniSR%2DHPC/Development-tools)** - Start an interactive SLURM job + Apptainer container running your desired dev environment
 
   
