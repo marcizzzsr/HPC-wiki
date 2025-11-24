@@ -4,7 +4,7 @@ This guide provides a unified overview of a suite of scripts that launch common 
 
 These tools provide a convenient wrapper to get a fully functional development environment running on a compute node, accessible from your local machine.
 
-> You are highly encouraged to check the official github repository of the full collection of these tools that can be found [here](https://github.com/AI-UniSR/cluster-entrypoints) along with custom documentation files for each tool implemented. You can find a stable version of the repository in the cluster at `/mnt/data/unisr-data/entrypoints`
+> **You are highly encouraged to check the official github repository of the full collection of these tools that can be found [here](https://github.com/AI-UniSR/cluster-entrypoints) along with custom documentation files for each tool implemented. You can find a stable version of the repository in the cluster at `/mnt/data/unisr-data/entrypoints`**
 
 ---
 
