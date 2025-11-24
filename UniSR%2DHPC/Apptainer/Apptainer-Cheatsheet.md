@@ -13,7 +13,33 @@ todo
 
 # Sandbox
 https://apptainer.org/docs/user/main/build_a_container.html#sandbox
-todo
+Apptainer's sandbox mode enables containers to be used a s writable directory trees on the host filesystem, unlike the default read-only `.sif` format typically used by Apptainer. In sandbox mode, you can directly modify files and install additional software within the container, making it ideal for interactive development and debugging workflows.
+
+To build a writable Apptainer sandbox from an image you simply have to use the `apptainer build` command with `--sandbox` option followed by the target directory for the sandbox. This command will create a directory-based writable container where you can make changes directly (i.e. also outside Apptainer, it functions as a standard directory in your filesystem!)
+
+
+## How to use
+The following command builds a writable sandbox container directory from a Docker image:
+```shell
+apptainer build --sandbox <path-to-sandbox> docker://docker-image-name:tag
+```
+
+Then enter the sandbox in writable mode (discard `--writable` to use it in read-only mode):
+```shell
+apptainer shell --writable <path-to-sandbox> 
+```
+
+**It's strongly advised to create sandbox containers on fast storage directories, please avoid sandbox paths in your home.**
+
+## Use cases
+A sandboxed container is useful **only during development and debugging** to speed up development and image debugging. As an example, you might want to use it while trying to set up your optimal python libraries in your image and resolve painful conflicts without multiple image re-builds.
+
+Once you end up with your final version, you can build a final immutable Apptainer image from the sandbox:
+```shell
+apptainer build <image-name>.sif <path-to-existing-sandbox>
+```
+
+**Be aware that you can make any modification in the sandbox, hence you might render your container unusable pretty easily. Forewarned is forearmed!**
 
 ---
 
