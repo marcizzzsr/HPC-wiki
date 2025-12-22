@@ -72,7 +72,7 @@ To maximize performance and keep the cluster organized, follow this lifecycle fo
 
 2.  **Stage (Preparation):**
     Before submitting your SLURM job, copy the dataset to the high-speed BeeGFS SSD tier.
-    `cp -r /mnt/data/unisr-data/datasets/my_dataset /mnt/beegfs/scratch/unisr-data/my_project/`
+    `cp -r /mnt/data/unisr-data/datasets/my_dataset /mnt/beegfs/scratch/unisr-data/datasets/my_dataset`
 
 3.  **Compute (Training):**
     Point your training scripts to read from `/mnt/beegfs/scratch`.
