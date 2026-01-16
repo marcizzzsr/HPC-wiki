@@ -1,4 +1,4 @@
-# SLURM + Apptainer: the simple mental model
+# HPC: simple introduction (SLURM + Apptainer mental model)
 
 If you’re new to HPC, it’s normal to have a few “wait… where is my code actually running?” moments.
 This page gives you a friendly mental model of how **SLURM** (the scheduler) and **Apptainer** (the container runtime) work together on a cluster.

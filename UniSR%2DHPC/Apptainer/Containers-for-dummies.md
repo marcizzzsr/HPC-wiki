@@ -143,8 +143,8 @@ Further Reading (Optional)
 
 If you’re using containers on the UniSR cluster and wish to understand how they integrate into our system, see:
 
-*   **[SLURM + Apptainer: the simple mental model](/UniSR%2DHPC/SLURM-and-Apptainer-for-dummies)**
-*   **[Introduction to workload managers](/UniSR%252DHPC/SLURM/Workload-Managers-for-dummies.md)**
+*   **[HPC: simple introduction](/UniSR%2DHPC/HPC-simple-introduction)**
+*   **[Introduction to workload managers](/UniSR%2DHPC/SLURM/Workload-Managers-for-dummies)**
 
 **Remember:** A container is a way to say “Run this code exactly the way I intended — anywhere.”
 

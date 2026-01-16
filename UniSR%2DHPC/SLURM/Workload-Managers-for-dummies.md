@@ -173,5 +173,5 @@ Next steps
 
 If you want to understand how this scheduler concept connects to “software environments” (containers) on the cluster, see:
 
-*   **[SLURM + Apptainer: the simple mental model](/UniSR%2DHPC/SLURM-and-Apptainer-for-dummies)**
-*   **[Introduction to containers](/UniSR%252DHPC/Apptainer/Containers-for-dummies.md)**
+*   **[HPC: simple introduction](/UniSR%2DHPC/HPC-simple-introduction)**
+*   **[Introduction to containers](/UniSR%2DHPC/Apptainer/Containers-for-dummies)**
