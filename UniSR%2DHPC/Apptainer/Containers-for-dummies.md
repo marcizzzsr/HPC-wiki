@@ -24,10 +24,10 @@ You can think of it like a **"mini-computer" inside your computer**. It runs exa
 ## Why Should You Care?
 
 Using containers:
-- ✅ Ensures your app works the same on different machines
-- ✅ Makes your code easier to share and reproduce
-- ✅ Simplifies setup — no more "it works on my machine"
-- ✅ Is essential for modern HPC, cloud, and scientific workflows
+- Ensures your app works the same on different machines
+- Makes your code easier to share and reproduce
+- Simplifies setup — no more "it works on my machine"
+- Is essential for modern HPC, cloud, and scientific workflows
 
 ---
 
@@ -37,11 +37,37 @@ Using containers:
 |------|---------|
 | **Image** | A frozen package of a container (like a template) |
 | **Container** | A running instance of an image |
+| **Recipe** | Build instructions for an image (e.g., `Dockerfile` or Apptainer `.def`) |
 | **Registry** | A place where images are stored and shared |
 | **Build** | The process of creating an image |
 | **Run** | Starting a container from an image |
 
 ---
+
+## Image vs Container: Two Helpful Metaphors
+
+Pick the metaphor that matches your background:
+
+### Metaphor A — Virtual machines
+
+- The **image** is like an **ISO file** (a frozen template of an operating system/environment).
+- The **container** is like the **virtual machine** you start from that ISO.
+
+### Metaphor B — Object-oriented programming
+
+- The **image** is like a **class**.
+- The **container** is like an **object (instance)** created from that class.
+
+In both metaphors: you can create many containers (instances) from the same image (template), and they behave consistently.
+
+## Where does an image come from?
+
+An image is created from a “recipe” (build instructions):
+
+- In Docker, that recipe is a `Dockerfile`.
+- In Apptainer, it’s a **definition file** (usually a `.def` file).
+
+Think of the recipe as the **source code of the class**: it defines what the image will contain and how it behaves (installed tools/libraries, environment variables, default run behavior).
 
 ## How Containers Fit Into Your Workflow
 
@@ -113,7 +139,13 @@ Further Reading (Optional)
 
 * * *
 
-🧠 **Remember:** A container is just a way to say “Run this code exactly the way I intended — anywhere.”
-Happy containerizing! 🎉
+## Next steps
+
+If you’re using containers on the UniSR cluster and wish to understand how they integrate into our system, see:
+
+*   **[SLURM + Apptainer: the simple mental model](/UniSR%2DHPC/SLURM-and-Apptainer-for-dummies)**
+*   **[Introduction to workload managers](/UniSR%252DHPC/SLURM/Workload-Managers-for-dummies.md)**
+
+**Remember:** A container is a way to say “Run this code exactly the way I intended — anywhere.”
 
     

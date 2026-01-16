@@ -14,6 +14,7 @@ If you want deeper dives while reading:
 - **SSH access:** [Login Guide](/UniSR%2DHPC/Login-instructions)
 - **Storage tiers & staging:** [Cluster Storage Architecture & Data Workflow](/UniSR%2DHPC/Cluster-Storage-Architecture-&-Data-Workflow)
 - **SLURM basics:** [SLURM Cheatsheet](/UniSR%2DHPC/SLURM/SLURM-%2D-Cheatsheet) and [SLURM Best Practices](/UniSR%2DHPC/SLURM/SLURM-Best-Practices)
+- **SLURM + Apptainer (mental model):** [SLURM and Apptainer for Dummies](/UniSR%2DHPC/SLURM-and-Apptainer-for-dummies)
 - **Containers & Apptainer:** [Containers for Dummies](/UniSR%2DHPC/Apptainer/Containers-for-dummies), [Apptainer Cheatsheet](/UniSR%2DHPC/Apptainer/Apptainer-Cheatsheet), [Containers Best Practices](/UniSR%2DHPC/Apptainer/Containers-best-practices)
 
 [[_TOC_]]
