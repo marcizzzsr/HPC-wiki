@@ -15,17 +15,10 @@ While the official plugin documentation is not particularly extensive (https://g
 - SECRET_KEY -> a secret key used by the Flask deployment of the plugin (needed to avoid weird authorization error after Users' login)
 
 Not connected to the plugin, but other env variables needed to the mlflow deployment are:
-- MLFLOW_BACKEND_STORE_URI=postgresql://mlflow:mlflow@postgres:5432/mlflow_tracking
-
-  
-
-POSTGRES_USER=mlflow
-
-POSTGRES_PASSWORD=mlflow
-
-  
-
-LOG_LEVEL=WARNING
+- MLFLOW_BACKEND_STORE_URI -> connection string to PostgreSQL, e.g. *postgresql://.../mlflow_tracking*, assuming the existence of a DB named *mlflow_tracking* (name required by mlflow) used to store metadata about mlflow experiments.
+- POSTGRES_USER -> user used by mlflow to connect to PostgreSQL
+- POSTGRES_PASSWORD -> password of the user above
+- LOG_LEVEL -> log level of the OIDP plugin (*WARNING* should be a good compromise)
 
 
 ## References
