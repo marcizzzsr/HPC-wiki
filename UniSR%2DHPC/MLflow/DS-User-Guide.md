@@ -1,6 +1,6 @@
 ## Introduction
 
-This page describes how a Data Scientist can access the on-premise deployment of MLflow to track their experiments.
+This page describes how a Data Scientist can access the on-premise deployment of MLflow to track their experiments on the workstations.
 
 ## Browser Usage
 
