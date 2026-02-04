@@ -35,8 +35,13 @@ Please note that you will need to log in to the mlflow interface via browser at 
 When developing Python code directly from the workstation (via the SSH connection), you can connect to the mlflow server on premise by adding the following lines to your code. You will need the email used to login via KeyCloak in the browser with the HSR Entra ID and the token created in your personal page in the mlflow permissions page.
 
 ```
+# Setting the tracking URI to the on-prem deployment
 mlflow.set_tracking_uri("https://mlflow-server.ihsr.ai-hub.it/")
+
+# Setting the mlflow tracking username
 os.environ["MLFLOW_TRACKING_USERNAME"] = "hsr_email_address_used_for_keycloak_login_in browser"
+
+# Setting the mlflow tracking password (access token)
 os.environ["MLFLOW_TRACKING_PASSWORD"] = "token_created_via_browser"
 ```
 
