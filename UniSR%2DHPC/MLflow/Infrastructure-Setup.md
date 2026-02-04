@@ -13,6 +13,8 @@ The mlflow deployment is based on a Dockerfile taking a *ghcr.io/mlflow/mlflow* 
 
 Additionally, a custom code to implement a proper logout mechanism was added, by replacing a specific *.py* module of the original plugin after the pip install stage. This module will need to be evaluated to support any possible library update.
 
+You can see the code details here: https://dev.azure.com/HSREMIC/DevOps/_git/MLflow
+
 ## OIDP Plugin Configuration
 While the official plugin documentation is not particularly extensive aside the list of supported env variables (https://github.com/mlflow-oidc/mlflow-oidc-auth/blob/main/docs/configuration.md) , local tests confirmed the purpose of each of the environment variables configured for the OIDP plugin deployment in MLflow. Here's a list with a small explanation:
 
