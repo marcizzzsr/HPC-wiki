@@ -4,6 +4,7 @@ The following page describes the infrastructural setup of the mlflow deployment 
 ## Architecture
 The deployment of the mlflow service is based on three main services:
 - an mlflow deployment on premise, storing artifacts on local storage and connecting to a PostgreSQL DB to store metadata information about experiments and run. The mlflow deployment is based on mlflow with the addition of a public OIDC plugin (https://github.com/mlflow-oidc/mlflow-oidc-auth/tree/main) to support an authentication and authorization mechanism on top of the standard mlflow features.
+Please note that the server should also be reachable from a machine outside on premise (e.g. a DS computer) behind VPN.
 - a PostregSQL deployment on premise, reachable from mlflow. Two databases are required to support mlflow and the OIDP integration: *mlflow_auth* and *mlflow_tracking* (empty databases only are sufficient in the initialization phase)
 - A keycloak deployment on cloud, with a dedicated realm for mlflow (see dedicated section for configuring it).
 
@@ -13,7 +14,7 @@ The mlflow deployment is based on a Dockerfile taking a *ghcr.io/mlflow/mlflow* 
 Additionally, a custom code to implement a proper logout mechanism was added, by replacing a specific *.py* module of the original plugin after the pip install stage. This module will need to be evaluated to support any possible library update.
 
 ## OIDP Plugin Configuration
-While the official plugin documentation is not particularly extensive (https://github.com/mlflow-oidc/mlflow-oidc-auth/blob/main/docs/configuration.md) , local tests confirmed the purpose of each of the environment variables configured for the OIDP plugin deployment in MLflow. Here's a list with a small explaination:
+While the official plugin documentation is not particularly extensive aside the list of supported env variables (https://github.com/mlflow-oidc/mlflow-oidc-auth/blob/main/docs/configuration.md) , local tests confirmed the purpose of each of the environment variables configured for the OIDP plugin deployment in MLflow. Here's a list with a small explanation:
 
 - OIDC_DISCOVERY_URL -> *{keycloak_url}/realms/m{mlflow_realm}/.well-known/openid-configuration*
 - OIDC_CLIENT_ID -> client for mlflow (e.g. *mlflow_client*)
@@ -31,6 +32,7 @@ Not connected to the plugin, but other env variables needed to the mlflow deploy
 - POSTGRES_USER -> user used by mlflow to connect to PostgreSQL
 - POSTGRES_PASSWORD -> password of the user above
 - LOG_LEVEL -> log level of the OIDP plugin (*WARNING* should be a good compromise)
+- DEFAULT_LANDING_PAGE_IS_PERMISSIONS -> optional -> can be set to *False* if Users want to land to the standard mlflow page instead of the Permission one of the plugin.
 
 ## Keycloak configuration
 
@@ -52,7 +54,7 @@ The following configuration are needed in Keycloak to support a correct function
 
 ![image.png](/.attachments/image-88e39e34-cf53-4801-87fe-f18a6d6c684b.png)
 
-
+If everything was configured correctly, Users should be able to log in with Entra, be automatically mapped to one of the Keycloak Groups and be allowed to access the mlflow UI.
 
 
 ## References
