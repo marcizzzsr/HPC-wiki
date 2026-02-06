@@ -4,7 +4,7 @@ The following page describes the infrastructural setup of the mlflow deployment 
 ## Architecture
 The deployment of the mlflow service is based on three main services:
 - an mlflow deployment on premise, storing artifacts on local storage and connecting to a PostgreSQL DB to store metadata information about experiments and run. The mlflow deployment is based on mlflow with the addition of a public OIDC plugin (https://github.com/mlflow-oidc/mlflow-oidc-auth/tree/main) to support an authentication and authorization mechanism on top of the standard mlflow features.
-Please note that the server should also be reachable from a machine outside on premise (e.g. a DS computer) behind VPN.
+Please note that the server should also be reachable from a machine outside on premise (e.g. a DS computer) behind VPN or hospital network.
 - a PostregSQL deployment on premise, reachable from mlflow. Two databases are required to support mlflow and the OIDP integration: *mlflow_auth* and *mlflow_tracking* (empty databases only are sufficient in the initialization phase)
 - A keycloak deployment on cloud, with a dedicated realm for mlflow (see dedicated section for configuring it).
 
@@ -18,7 +18,7 @@ You can see the code details here: https://dev.azure.com/HSREMIC/DevOps/_git/MLf
 ## OIDP Plugin Configuration
 While the official plugin documentation is not particularly extensive aside the list of supported env variables (https://github.com/mlflow-oidc/mlflow-oidc-auth/blob/main/docs/configuration.md) , local tests confirmed the purpose of each of the environment variables configured for the OIDP plugin deployment in MLflow. Here's a list with a small explanation:
 
-- OIDC_DISCOVERY_URL -> *{keycloak_url}/realms/m{mlflow_realm}/.well-known/openid-configuration*
+- OIDC_DISCOVERY_URL -> *{keycloak_url}/realms/{mlflow_realm}/.well-known/openid-configuration*
 - OIDC_CLIENT_ID -> client for mlflow (e.g. *mlflow_client*)
 - OIDC_CLIENT_SECRET -> secret of the client above
 - OIDC_REDIRECT_URI -> *{url_of_mlflow_server}/callback
