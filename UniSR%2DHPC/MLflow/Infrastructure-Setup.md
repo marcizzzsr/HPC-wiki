@@ -26,6 +26,23 @@ Additionally, a custom code to implement a proper logout mechanism was added, by
 
 You can see the code details here: https://dev.azure.com/HSREMIC/DevOps/_git/MLflow
 
+## MLflow deployment options
+The following options were selected based on our needs and the MLflow security documentation:
+
+```
+mlflow server \
+  --app-name oidc-auth \
+  --backend-store-uri "${MLFLOW_BACKEND_STORE_URI}" \
+  --default-artifact-root "mlflow-artifacts:/mlartifacts" \
+  --artifacts-destination /mlartifacts \
+  --serve-artifacts \
+  --host 0.0.0.0 \
+  --port 5000 \
+  --allowed-hosts "mlflow-server.ihsr.ai-hub.it"
+```
+
+With the options above, we are starting mlflow with the oidc-auth plugin, using a PostgreSQL DB to store all metadata related to experiments, storing the artifacts locally (on a volume) while allowing clients to use the mlflow server to store them (the *serve_artifacts* options in conjuction with *mlflow-artifacts:/*), while allowing connections only coming from the our target host.
+
 ## OIDP Plugin Configuration
 While the official plugin documentation is not particularly extensive aside the list of supported env variables (https://github.com/mlflow-oidc/mlflow-oidc-auth/blob/main/docs/configuration.md) , local tests confirmed the purpose of each of the environment variables configured for the OIDP plugin deployment in MLflow. Here's a list with a small explanation:
 
