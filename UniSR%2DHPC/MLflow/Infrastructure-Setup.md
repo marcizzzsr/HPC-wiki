@@ -21,8 +21,8 @@ While the official plugin documentation is not particularly extensive aside the 
 - OIDC_DISCOVERY_URL -> *{keycloak_url}/realms/{mlflow_realm}/.well-known/openid-configuration*
 - OIDC_CLIENT_ID -> client for mlflow (e.g. *mlflow_client*)
 - OIDC_CLIENT_SECRET -> secret of the client above
-- OIDC_REDIRECT_URI -> *{url_of_mlflow_server}/callback
-- OIDC_USERS_DB_URI -> connection string used by mlflow to connect to PostgreSQL (e.g. *postgresql://.../mlflow_auth), assuming the existence of a DB called *mlflow_auth*
+- OIDC_REDIRECT_URI -> *{url_of_mlflow_server}/callback*
+- OIDC_USERS_DB_URI -> connection string used by mlflow to connect to PostgreSQL (e.g. *postgresql://.../mlflow_auth*), assuming the existence of a DB called *mlflow_auth*
 - OIDC_SCOPE -> *openid email profile* (Keycloak does not support comma separated scopes)
 - OIDC_GROUP_NAME -> name of the group of standard MLflow users configured in Keycloak, with a '/' before the name (needed for Keycloak specifically): the OIDP plugin will verify if the logged in User is part of this group to allow access (or the admin group). Example: */mlflow_users*
 - OIDC_ADMIN_GROUP_NAME -> name of the group of admin MLflow users configured in , with a '/' before the name (needed for Keycloak specifically). Same mechanism as above. Example: */mlflow_admins*. 
