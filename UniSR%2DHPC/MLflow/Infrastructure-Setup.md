@@ -80,7 +80,7 @@ The following configuration are needed in Keycloak to support a correct function
 
 ![image.png](/.attachments/image-9290f649-7290-46da-ab4a-ba7e9baded0a.png)
 
-- If an Identity provider is also added to support a login via Entra ID (e.g. via HSR Entra ID), it is advised to add a Mapper that allows Users belonging to a specific Azure Group to be automatically added to the mlflow Users group defined in the step before. Add a Mapper with *Force* as sync mode override, *Advanced Claim to Group* as mapper type and use *groups* as the key of the claim and the Group Object ID as the value. Select the group defined in the previous step as target group of the mapping.
+- If an Identity provider is also added to support a login via Entra ID (e.g. via HSR Entra ID), it is advised to add a Mapper that allows Users belonging to a specific Azure Group to be automatically added to the mlflow Users group defined in the step before. Add a Mapper with *Force* as sync mode override, *Advanced Claim to Group* as mapper type and use *groups* as the key of the claim and the Group Object ID (from Azure) as the value. Select the group defined in the previous step as target group of the mapping.
 
 ![image.png](/.attachments/image-88e39e34-cf53-4801-87fe-f18a6d6c684b.png)
 
