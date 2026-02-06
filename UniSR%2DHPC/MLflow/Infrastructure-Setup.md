@@ -11,6 +11,8 @@ Please note that the server should also be reachable from a machine outside on p
 ## MLflow Dockerfile
 The mlflow deployment is based on a Dockerfile taking a *ghcr.io/mlflow/mlflow* image; a standard set of requirements to support mlflow is defined in the *requirements.txt* following a freeze of the libraries *mlflow-oidc-auth[full]* and *psycopg2* (to connect to PostgreSQL).
 
+To avoid issues with the compatibility between mlflow and the database, a minimum requirements.txt should comprise *mlflow-oidc-auth* and all the *mlflow* dependencies that are installed with it (*mlflow*, *mlflow-skinny*, *mlflow-tracing*). Not freezing the mlflow dependencies may cause errors when upgrading the mlflow-oidc-auth library (errors mainly due to change of database schema in mlflow between releases).
+
 Additionally, a custom code to implement a proper logout mechanism was added, by replacing a specific *.py* module of the original plugin after the pip install stage. This module will need to be evaluated to support any possible library update.
 
 You can see the code details here: https://dev.azure.com/HSREMIC/DevOps/_git/MLflow
