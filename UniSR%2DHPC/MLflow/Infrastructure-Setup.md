@@ -13,6 +13,15 @@ The mlflow deployment is based on a Dockerfile taking a *ghcr.io/mlflow/mlflow* 
 
 To avoid issues with the compatibility between mlflow and the database, a minimum requirements.txt should comprise *mlflow-oidc-auth* and all the *mlflow* dependencies that are installed with it (*mlflow*, *mlflow-skinny*, *mlflow-tracing*). Not freezing the mlflow dependencies may cause errors when upgrading the mlflow-oidc-auth library (errors mainly due to change of database schema in mlflow between releases).
 
+Example
+```
+mlflow==3.8.1
+mlflow-oidc-auth==6.6.4
+mlflow-skinny==3.8.1
+mlflow-tracing==3.8.1
+psycopg2-binary==2.9.11
+```
+
 Additionally, a custom code to implement a proper logout mechanism was added, by replacing a specific *.py* module of the original plugin after the pip install stage. This module will need to be evaluated to support any possible library update.
 
 You can see the code details here: https://dev.azure.com/HSREMIC/DevOps/_git/MLflow
