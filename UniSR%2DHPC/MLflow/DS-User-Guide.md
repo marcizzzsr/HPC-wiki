@@ -23,6 +23,7 @@ After reaching the page, click on *Login with KeyCloak*
 - If you want to use the usual mlflow interface, you can simply press the *MLflow* button on the top right on the screen. The *Permissions* tab is automatically added by the OIDP plugin, and allows you to still see the experiments of mlflow by checking the *Experiments* tab on the left. Still, for practical purposes, switching to the usual mlflow view is advised for day-to-day activities.
 
 - The main reason to access the *Permission* page is to create a personal access token that you will need to use to connect to the mlflow server from the workstation on premise: in order to do that, you can press *Create Access Token*, set an expiration date to the token and create a new one. Please store the token safely.
+**As of now, there can be only one token per user. If you create a new one, the last generated one will be automatically invalidated! Make sure to save the generated token as soon as it appears, it will not be retrievable in the future once you close the generation process.**
 
 ![Keycloak_MLflow_4.png](/.attachments/Keycloak_MLflow_4-10047b0f-0a69-4b88-8f5b-35540847ff62.png)
 

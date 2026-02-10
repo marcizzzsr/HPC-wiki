@@ -7,9 +7,8 @@ Effective use of the cluster requires understanding the storage hierarchy. The c
 | Path | Type | Speed | Capacity | Scope | Best Use Case |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`/mnt/data`** | Network Storage | 🐢 Slow | **Huge** | **Shared** (All Nodes) | Initial upload, cold storage, archiving results. |
-| **`/mnt/beegfs/scratch`** | BeeGFS (SSD) | 🚀 **Fastest** | **Medium** | **Shared** (All Nodes) | **Active training**, high-speed I/O. | 
-| **`/mnt/beegfs/data`** | BeeGFS (HDD) | 🐇 Fast | **Huge** | **Shared** (All Nodes) | Large datasets requiring high throughput. |
-| **`/mnt/scratch`** | Local Disk (SSD) | 🐅 Fast | **Tiny** | **Local** (Single Node) | Temp caching *during* a job. |
+| **`/mnt/beegfs/nvme`** | BeeGFS (NVMe) | 🚀 **Fastest** | **~6TB** | **Shared** (All Nodes) | **Active training**, high-speed I/O for experiments. | 
+| **`/mnt/beegfs/hdd`** | BeeGFS (HDD) | 🐇 Slow | **Huge** | **Shared** (All Nodes) | Large datasets, long-term storage. |
 
 
 [[_TOC_]]
@@ -34,31 +33,20 @@ This is the standard entry point for the cluster. It is hosted on standard netwo
 
 For high-performance computing, we utilize **BeeGFS**. Unlike standard storage (NFS), BeeGFS is a parallel file system. It stripes data chunks across multiple servers, allowing your read/write operations to utilize the combined bandwidth of multiple storage targets simultaneously.
 
-## A. SSD Tier (The "Hot" Zone)
-**Path:** `/mnt/beegfs/scratch/unisr-data`
+## A. NVMe Tier (The "Hot" Zone)
+**Path:** `/mnt/beegfs/nvme`
 
 * **Hardware:** Enterprise NVMe/SSDs.
+* **Capacity:** Approximately 6TB.
 * **Performance:** Extremely high IOPS (Input/Output Operations Per Second) and low latency.
-* **Usage:** This is where your **active training data** should live. If you are training a deep learning model with thousands of small files (e.g., images), place them here.
+* **Usage:** This is where your **active experiment data** should live. If you are training a deep learning model with thousands of small files (e.g., images), place them here. Store only the data needed for running your current experiments.
 
-## B. HDD Tier (The "Warm" Zone)
-**Path:** `/mnt/beegfs/data/unisr-data`
+## B. HDD Tier
+**Path:** `/mnt/beegfs/hdd`
 
-* **Hardware:** High-speed HDDs.
-* **Performance:** Excellent sequential throughput, good for large files.
-* **Usage:** Ideal for large datasets that are too big for the SSD tier or for checkpointing large model states.
-
----
-
-# Node-Local Storage
-**Path:** `/mnt/scratch`
-
-This storage is physically attached to the compute node you are running on.
-
-* **Scope:** **NOT SHARED.** Data on `node-1:/mnt/scratch` is invisible to `node-5`.
-* **Visibility:** Only accessible when you have an active allocation via SLURM.
-* **Subpath:** `/mnt/scratch/unisr-data` (Shared directories structure).
-* **Usage:** Use this for temporary scratch files that do not need to be saved after the job finishes. It eliminates network overhead entirely.
+* **Hardware:** HDDs.
+* **Performance:** Slower storage, good for large files and archival.
+* **Usage:** Ideal for large datasets, long-term storage, or data that doesn't require high-speed access during computation.
 
 ---
 
@@ -67,22 +55,24 @@ This storage is physically attached to the compute node you are running on.
 To maximize performance and keep the cluster organized, follow this lifecycle for your data:
 
 1.  **Ingest (Login Node):**
-    Upload your raw data or download datasets directly to the slow storage with `scp` or `wget` commands. Example:
+    Upload your raw data or download datasets directly to the landing zone with `scp` or `wget` commands. Example:
     `scp -r ./my_dataset user@cluster:/mnt/data/unisr-data/datasets/`
 
 2.  **Stage (Preparation):**
-    Before submitting your SLURM job, copy the dataset to the high-speed BeeGFS SSD tier.
-    `cp -r /mnt/data/unisr-data/datasets/my_dataset /mnt/beegfs/scratch/unisr-data/datasets/my_dataset`
+    Before submitting your SLURM job, copy the dataset to the high-speed BeeGFS NVMe tier.
+    `cp -r /mnt/data/unisr-data/datasets/my_dataset /mnt/beegfs/nvme/datasets/my_dataset`
 
 3.  **Compute (Training):**
-    Point your training scripts to read from `/mnt/beegfs/scratch`.
-    *Optional:* If your job requires extremely low latency temporary files, write them to `/mnt/scratch` (local) during the job.
+    Point your training scripts to read from `/mnt/beegfs/nvme` for optimal performance.
 
 4.  **Result:**
-    Write your logs and model checkpoints to `/mnt/beegfs/scratch`. Once training is complete, move final results back to `/mnt/data` for long-term storage or download.
+    Write your logs and model checkpoints to `/mnt/beegfs/nvme` during training. Once training is complete, move final results back to `/mnt/data` for long-term storage or download. If needed, intermediate results can be stored in `/mnt/beegfs/hdd`.
+
+5.  **Cleanup:**
+    Be mindful of the ~6TB limit on `/mnt/beegfs/nvme`. Remove experiment data once completed and move important results to `/mnt/data` or `/mnt/beegfs/hdd` for archival.
 
 ---
 
 # Notes
 - Even though BeeGFS is accessible from the login node it's quite slow and hangs even for simple operations. As of now, it's better to **first hop on a node** via SLURM and then access it.
-- Be picky with what you move to fast storage as it's a tiny space compared to slow storage. If you don't need something, just move it back to slow storage.
+- Be mindful of the `/mnt/beegfs/nvme` capacity (~6TB). Only keep data there that you actively need for experiments. Move completed or inactive data to `/mnt/beegfs/hdd` or `/mnt/data`.
