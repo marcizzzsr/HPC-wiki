@@ -7,9 +7,10 @@ This is a simple Apptainer cheatsheet that gathers hands-on knowledge that we ga
 # Images
 https://apptainer.org/docs/user/main/definition_files.html
 https://apptainer.org/docs/user/main/build_a_container.html
-todo
 
----
+**OUTDATED SECTION, check https://github.com/AI-UniSR/apptainer-image-registry**
+**Avoid building images on the cluster at all costs! Build your image on your own machine and copy it on the cluster!**
+**The following instructions should be used as an example to build**
 
 # Sandbox
 https://apptainer.org/docs/user/main/build_a_container.html#sandbox
@@ -127,62 +128,3 @@ This command directly executes the content of the `%runscript` section in the `.
 This command is virtually equivalent to running apptainer exec with the `/bin/bash` command: it opens an interactive shell inside the specified image and ignores the commands defined in the `%runscript`.
 
 ---
-
-# Images
-**OUTDATED SECTION, check https://github.com/AI-UniSR/apptainer-image-registry**
-
-You can find pre-built images at `/mnt/data/unisr-data/apptainer_images/`; please avoid building new ones unless strictly necessary.
-
-In `/mnt/data/unisr-data/apptainer_images/sif`, you’ll find a list of curated `.sif` files, which are pre-built images. In `/mnt/data/unisr-data/apptainer_images/def`, there is a subfolder for each build. Within each subfolder, you’ll find the `.def` file and any additional requirements that were used to create the corresponding `.sif` file.
-
-```bash
-cd /mnt/data/unisr-data/apptainer_images
-tree
-#.
-#├── def
-#│   └── monai_1_5_0_custom
-#│       ├── monai_1_5_0_custom.def
-#│       ├── pip_freeze.txt
-#│       └── requirements.txt
-#└── sif
-#    └── monai_1_5_0_custom.sif
-```
-
-## Build `.sif` from `.def`
-**This option should be avoided unless strictly necessary!** Please check the [Containers best practices](/UniSR%2DHPC/Apptainer/Containers-best-practices) guidelines before proceeding.
-
-First be sure to **start an interactive slurm session**:
-
-```bash
-srun -p interactive --mem=16 --cpus-per-task=8 --pty bash
-```
-
-Build `.sif` from `.def`:
-
-```
-apptainer build --ignore-fakeroot-command <path-to-sif> <path-to-def>
-```
-
-Freeze the Python environment of a `.sif` (recommended for facilitating reporting):
-
-```
-cd /mnt/data/unisr-data/apptainer_images/sif/
-
-apptainer exec monai_1_5_0_custom.sif pip freeze > /mnt/data/unisr-data/apptainer_images/def/monai_1_5_0_custom/pip_freeze.txt
-```
-
-## Docker support
-https://apptainer.org/docs/user/main/docker_and_oci.html
-
-If possible, we advise to build images using Docker (granted you have it installed on your local machine), due to more accessible resources online. Apptainer allows to build images directly from docker ones.
-
-If you find an image of interest in [Docker Hub](https://hub.docker.com), you can transform it into a sif euqivalent using:
-```
-apptainer pull <image-name>.sif docker://user/image:tag
-```
-
-Or, if you want to extend it, start your `.def` file with:
-```
-Bootstrap: docker
-From: user/image:tag
-```
