@@ -1,7 +1,7 @@
 [[_TOC_]]
 
 # Useful aliases
-
+Aliases in bash allow you to create shortcuts for long or frequently ysed commands. This makes it easier to execute complex commands with a simple keyword.
 Here is a collection of useful aliases you could paste into your `~/.bashrc` file to make your life easier.
 
 ## How to add an alias
@@ -14,12 +14,12 @@ To add an alias just>
 - source the new `~/.bashrc` with `source ~/.bashrc`
 
 ### `srun-i`
-Lunch an interactive slurm container with minimum options (8 cores, 16GB RAM, no GPU)
+Launch an interactive slurm job + apptainer container with minimum options (8 cores, 16GB RAM, no GPU)
 ```bash
 alias srun-i='srun -p interactive --mem=16 --cpus-per-task=8 --pty bash'
 ```
 ### `srun-gpu`
-Lunch an interactive slurm container with minimum options (8 cores, 16GB RAM, single GPU)
+Launch an interactive slurm job + apptainer container with minimum options (8 cores, 16GB RAM, single GPU)
 ```bash
 alias srun-gpu='srun -p interactive --gres=gpu:1 --mem=8 --cpus-per-task=4 --pty bash'
 ```
