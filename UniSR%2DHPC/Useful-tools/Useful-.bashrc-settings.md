@@ -45,3 +45,12 @@ This will render you prompt something like this:
 ![image.png](/.attachments/image-6b549b53-393f-4055-b02b-c2c5264908ff.png)
 
 (if you are a customization geek, you can style yours [here](https://bash-prompt-generator.org/))
+
+# Better `squeue`
+You can get a more informative and live stream of active jobs by creating a custom alias for the standard `squeue` command. Add the following to your `.bashrc` file:
+```bash
+alias squeue='squeue -o "%.10i %.12P %.15j %.10u %.8T %.10M %.12b %.8m %.6C %R"'
+```
+Whenever you will launch `squeue` command, it will now stream active jobs like this:
+
+![image.png](/.attachments/image-aae8472e-bf35-46ba-a2ca-2bd70b98e3ab.png)
