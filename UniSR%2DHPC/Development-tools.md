@@ -74,6 +74,9 @@ The first run requires you to explicitly launch the executable from its executab
 ```bash
 /path/to/repo/vscode-tunnel/src/launch.py <host-workdir> [--bind <host:container> ...]
 ```
+
+**Note**: currently the path to wrapper.sh is /mnt/data/unisr-data/entrypoints/vscode-tunnel/src/launch.py 
+
 Additionally, the first run will require you to log in with a GitHub or Microsoft account to authenticate the tunnel. This is a one-time operation, as your login will be persisted for future sessions.
 
 After authentication, the service will provide a URL:
