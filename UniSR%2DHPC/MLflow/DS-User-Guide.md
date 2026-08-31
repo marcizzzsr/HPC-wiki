@@ -46,4 +46,6 @@ os.environ["MLFLOW_TRACKING_USERNAME"] = "hsr_email_address_used_for_keycloak_lo
 os.environ["MLFLOW_TRACKING_PASSWORD"] = "token_created_via_browser"
 ```
 
+⚠️ **Note:** `MLFLOW_TRACKING_USERNAME` must match the **Username** shown on your token page exactly. A mismatch gives `Authentication required`.
+
 After that, all usual mlflow commands are supported (e.g. `mlflow.set_experiment`, `mlflow.start_run`, etc.): you will be able to run the code and check the results directly via the mlflow interface in the browser.
