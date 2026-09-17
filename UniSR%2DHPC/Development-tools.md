@@ -6,6 +6,12 @@ These tools provide a convenient wrapper to get a fully functional development e
 
 > **You are highly encouraged to check the official github repository of the full collection of these tools that can be found [here](https://github.com/AI-UniSR/cluster-entrypoints) along with custom documentation files for each tool implemented. You can find a stable version of the repository in the cluster at `/mnt/data/unisr-data/entrypoints`**
 
+## Available Tools
+
+*   **[OpenVSCode Server](/UniSR%2DHPC/Development-tools/OpenVSCode-Server)** — Apptainer/SLURM-launched, web-based VSCode.
+*   **[VSCode Tunnel](/UniSR%2DHPC/Development-tools/VSCode-Tunnel)** — Apptainer/SLURM-launched, connect via a secure tunnel from `vscode.dev` or your local VSCode.
+*   **[Fresh Editor](/UniSR%2DHPC/Development-tools/Fresh-Editor)** — a standalone terminal editor, run directly in your shell without Apptainer/SLURM. Great for quick file exploring/editing or lightweight Python development.
+
 ---
 
 ## Common Structure
