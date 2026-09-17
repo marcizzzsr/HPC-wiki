@@ -71,13 +71,16 @@ A quick field-by-field overview:
 ## Getting Connected: Step by Step
 
 1.  **Create the configuration file** — add `.code-tunnel-config.yaml` to your working directory with your requested SLURM resources and Apptainer image, as shown above.
+
+2. **Install the tool** (skip if not first run) - install with:
+    ```bash
+    sh /mnt/data/unisr-data/entrypoints/vscode-tunnel/install.sh
+    ```
 2.  **Start the tunnel** — launch it with:
 
     ```bash
-    /mnt/data/unisr-data/entrypoints/vscode-tunnel/src/launch.py <host-workdir> [--bind <host:container> ...]
+    code-tunnel <host-workdir> [--bind <host:container> ...]
     ```
-
-    **Note**: the first run requires the full path above; afterward you can simply use the alias `code-tunnel <host-workdir>`.
 
     On first use you'll be asked to authenticate with a GitHub or Microsoft account — this is a one-time operation, your login is persisted for future sessions. After authentication, the service prints a URL:
 
