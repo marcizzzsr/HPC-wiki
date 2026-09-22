@@ -8,9 +8,18 @@ This is a simple Apptainer cheatsheet that gathers hands-on knowledge that we ga
 https://apptainer.org/docs/user/main/definition_files.html
 https://apptainer.org/docs/user/main/build_a_container.html
 
-**OUTDATED SECTION, check https://github.com/AI-UniSR/apptainer-image-registry**
+
 **Avoid building images on the cluster at all costs! Build your image on your own machine and copy it on the cluster!**
 **The following instructions should be used as an example to build**
+
+We kinldy ask you to store any image you find useful in `/mnt/data/unisr-data/apptainer_images/images` following this convention:
+- Create a folder and give it a meaningful name that allows others to quickly recognize your image and what it contains
+- Store in that folder any file used to create the image: Dockerfile, .def, requirements.txt, project.toml, etc.
+- Store in that folder your image as image.sif file
+
+By following these simple rules anyone will be able to fully understand what your image contains, if it fits their use case and possibly extend it.
+
+**You can check the repo at https://github.com/AI-UniSR/apptainer-images-collection for an updated collection or pre-built images available on the cluster.**
 
 # Sandbox
 https://apptainer.org/docs/user/main/build_a_container.html#sandbox
