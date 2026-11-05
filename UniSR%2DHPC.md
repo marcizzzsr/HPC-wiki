@@ -58,6 +58,7 @@ The UniSR GPU cluster consists of two workstations, each equipped with two NVIDI
 - **[Typical Cluster Workflow](/UniSR%2DHPC/Typical-Cluster-Workflow)** - From SSH to data staging, containers, and running jobs
 - **[Shell Aliases](/UniSR%2DHPC/Useful-tools/Useful-.bashrc-settings)** - Useful command shortcuts and productivity tips
 - **[Development tools](/UniSR%2DHPC/Development-tools)** - Start an interactive SLURM job + Apptainer container running your desired dev environment
+- **[AI Agents](/UniSR%2DHPC/AI-Agents)** - Shared rules to let AI coding agents (e.g. Claude Code) operate correctly on the cluster
 
   
 ---
