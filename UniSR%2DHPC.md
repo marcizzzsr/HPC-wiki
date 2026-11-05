@@ -127,7 +127,7 @@ For detailed technical information, command examples, and troubleshooting, refer
 
 - Use the **interactive partition** for development and debugging (12-hour limit)
 
-- Use the **cuda partition** for GPU-intensive training (5-day limit)
+- Use the **cuda partition** for long-running jobs such as training (5-day limit)
 
 - Book resources in advance using the shared spreadsheet
 

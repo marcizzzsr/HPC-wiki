@@ -16,8 +16,8 @@ The following is a simple list of command line commands to use while submitting 
 - **`--mem=<size>`**  
   Sets the amount of memory reserved for the job (e.g., 16G, 32000M).
 
-- **`--gpus=<n>`** or **`--gres=gpu:<n>`**  
-  Requests GPU resources; format depends on cluster configuration.
+- **`--gres=gpu:<n>`**  
+  Requests GPU resources (e.g., `--gres=gpu:1`).
 
 - **`--time=<D-HH:MM:SS>`**  
   Defines the maximum allowed runtime for the job.
@@ -56,7 +56,7 @@ A partition in a SLURM system is a logical group of nodes where **jobs** can be 
 - When you submit a SLURM job (`sbatch`, `srun`), you can specify which partition to use.
 - If you don't specify one, SLURM will use the default partition (usually the only or the most general one).
 
-In our cluster, there are currently **two partitions**, designed to **isolate different types of work** (e.g., development vs. training), manage **priorities and quotas** across nodes, and ensure service quality — by limiting the resources available to dev/debug jobs in favor of training jobs.
+In our cluster, there are currently **two partitions**, designed to **isolate different types of work** (e.g., development vs. training). Both partitions include the same nodes and give access to the same resources (CPU, RAM and GPU): **the only difference is the maximum time limit of the jobs**.
 
 | Partition     | Avail | TimeLimit  | Nodes | State | NodeList               |
 | ------------- | ----- | ---------- | ----- | ----- | ---------------------- |
@@ -67,16 +67,14 @@ In our cluster, there are currently **two partitions**, designed to **isolate di
   - Partition designed for interactive sessions: **development, debugging, testing**
   - Has a time limit of **12 hours**
   - Both cluster nodes are assigned to this partition
-  - Typically, you can request CPU and RAM here, but probably **no GPU** or with restricted GPU access (depends on policy)  
-    **#To be completed: ask IT**
 
 - `cuda`
-  - Partition dedicated to heavy jobs that **require GPU** (deep learning, training, intensive inference)
+  - Partition dedicated to long-running jobs (deep learning, training, intensive inference)
   - Has a maximum time limit of **5 days**
-  - The same nodes are assigned here, but with GPU resources activated and reserved (`gres/gpu=2`)
+  - Both cluster nodes are assigned to this partition
 
 
-> Use the `interactive` partition for development, testing, and quick interactive debugging. Use the `cuda` partition **only when you need to run training** or tasks that truly require GPU resources.
+> Use the `interactive` partition for development, testing, and quick interactive debugging. Use the `cuda` partition for long-running jobs such as training.
 
 ---
 
@@ -137,7 +135,7 @@ You conveniently baked the SLURM arguments inside the bash script that will be s
 #SBATCH --partition=cuda
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
-#SBATCH --gpus=1
+#SBATCH --gres=gpu:1
 #SBATCH --time=12:00:00
 #SBATCH --output=slurm-%j.out
 #SBATCH --error=slurm-%j.err
@@ -145,8 +143,8 @@ You conveniently baked the SLURM arguments inside the bash script that will be s
 #... your custom shell script ....
 ```
 
-- If multiple GPUs are required, just ask for more resources with sbatch (`--gpus 2`) + obviously adapt the script for parallel computing.
-- Slurm will automatically assign you the available workstation. If you wish to manually select it, add `-w workstation-ai-01` (or `-w workstation-ai-02`) just before `--wrap`.
+- If multiple GPUs are required, just ask for more resources with sbatch (`--gres=gpu:2`) + obviously adapt the script for parallel computing.
+- Slurm will automatically assign you the available workstation. If you wish to manually select it, add `#SBATCH -w workstation-ai-01` (or `#SBATCH -w workstation-ai-02`) to your script.
 - The above command should return the progressive identifier of the job, hereafter referred to as `{job_id}`. By default, Slurm creates a log in the current working directory, following the pattern `slurm-{job_id}.out`.
 
 Monitor job output:
@@ -157,7 +155,19 @@ tail -f slurm-{job_id}.out
 
 ## Run workloads with `srun`
 
-todo
+The `srun` command runs a workload directly from your terminal: it allocates the requested resources and executes the given command on the compute node, streaming its output back to your shell. Unlike `sbatch`, it is **blocking**: if you close the terminal (or the SSH connection drops), the job is terminated. Use it for short tasks or, more commonly, to open an interactive shell on a compute node with the `--pty` option:
+```shell
+srun --partition=interactive --pty \
+     --cpus-per-task=4 \
+     --mem=16G \
+     --gres=gpu:1 \
+     --time=2:00:00 \
+     bash
+```
+
+- Once the shell opens, you are on the compute node and you can launch your Apptainer container (e.g., `apptainer shell --nv <path-to-image.sif>`).
+- Type `exit` to close the shell and release the allocated resources.
+- To avoid losing your session when disconnecting, run `srun` inside a [terminal multiplexer](/UniSR%2DHPC/Useful-tools/Terminal-multiplexers) (e.g., tmux).
 
 
 

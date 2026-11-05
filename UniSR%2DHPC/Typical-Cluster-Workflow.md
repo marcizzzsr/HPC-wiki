@@ -127,15 +127,15 @@ Clusters usually expose multiple storage tiers.
 For UniSR specifically, a typical mapping is:
 
 - **Slow / landing zone:** `/mnt/data/unisr-data`
-- **Fast (I/O) for active runs:** `/mnt/beegfs/scratch/unisr-data` (SSD tier)
-- **Fast-ish for very large datasets:** `/mnt/beegfs/data/unisr-data` (HDD tier)
+- **Fast (I/O) for active runs:** `/mnt/beegfs/nvme` (SSD tier)
+- **Fast-ish for very large datasets:** `/mnt/beegfs/hdd` (HDD tier)
 
 A common staging pattern is:
 
 ```bash
 # Stage data from slow to fast before training
 cp -r /mnt/data/unisr-data/datasets/my_dataset \
-      /mnt/beegfs/scratch/unisr-data/datasets/my_dataset
+      /mnt/beegfs/nvme/datasets/my_dataset
 ```
 
 > For more details (and the rationale behind each path), see [Cluster Storage Architecture & Data Workflow](/UniSR%2DHPC/Cluster-Storage-Architecture-&-Data-Workflow).
@@ -261,10 +261,11 @@ Then convert to Apptainer (on a machine where you are allowed to do so):
 apptainer build myproj.sif docker-daemon://myproj:latest
 ```
 
-Transfer the `.sif` to the cluster (store images on shared storage):
+Transfer the `.sif` to the cluster (store images on shared storage, following the folder convention described in the [Apptainer Cheatsheet](/UniSR%2DHPC/Apptainer/Apptainer-Cheatsheet#images)):
 
 ```bash
-scp myproj.sif surname.name@hsr.it@10.64.79.72:/mnt/data/unisr-data/images/myproj.sif
+ssh surname.name@hsr.it@10.64.79.72 mkdir -p /mnt/data/unisr-data/apptainer_images/images/myproj
+scp myproj.sif surname.name@hsr.it@10.64.79.72:/mnt/data/unisr-data/apptainer_images/images/myproj/image.sif
 ```
 
 #### Option B: Convert directly from a registry image
@@ -319,8 +320,8 @@ More `srun` / partition options:
 # Shell inside container
 apptainer shell --nv \
   --bind "$HOME/projects/<repo>:/workspace" \
-  --bind /mnt/beegfs/scratch/unisr-data:/mnt/beegfs/scratch/unisr-data \
-  /mnt/data/unisr-data/images/myproj.sif
+  --bind /mnt/beegfs/nvme:/mnt/beegfs/nvme \
+  /mnt/data/unisr-data/apptainer_images/images/myproj/image.sif
 ```
 
 Or run a single command:
@@ -328,8 +329,8 @@ Or run a single command:
 ```bash
 apptainer exec --nv \
   --bind "$HOME/projects/<repo>:/workspace" \
-  /mnt/data/unisr-data/images/myproj.sif \
-  python -u /workspace/train.py --data /mnt/beegfs/scratch/unisr-data/datasets/my_dataset
+  /mnt/data/unisr-data/apptainer_images/images/myproj/image.sif \
+  python -u /workspace/train.py --data /mnt/beegfs/nvme/datasets/my_dataset
 ```
 
 ### Batch mode (recommended for real runs)
@@ -358,19 +359,19 @@ set -euo pipefail
 
 mkdir -p logs
 
-IMAGE=/mnt/data/unisr-data/images/myproj.sif
+IMAGE=/mnt/data/unisr-data/apptainer_images/images/myproj/image.sif
 REPO_DIR=$HOME/projects/<repo>
 
 # Optional: stage data to fast storage (do this only if needed)
-# cp -r /mnt/data/unisr-data/datasets/my_dataset /mnt/beegfs/scratch/unisr-data/datasets/
+# cp -r /mnt/data/unisr-data/datasets/my_dataset /mnt/beegfs/nvme/datasets/
 
 apptainer exec --nv \
   --bind "$REPO_DIR:/workspace" \
-  --bind /mnt/beegfs/scratch/unisr-data:/mnt/beegfs/scratch/unisr-data \
+  --bind /mnt/beegfs/nvme:/mnt/beegfs/nvme \
   "$IMAGE" \
   python -u /workspace/train.py \
-    --data /mnt/beegfs/scratch/unisr-data/datasets/my_dataset \
-    --out  /mnt/beegfs/scratch/unisr-data/experiments/$USER/myproj/$SLURM_JOB_ID
+    --data /mnt/beegfs/nvme/datasets/my_dataset \
+    --out  /mnt/beegfs/nvme/experiments/$USER/myproj/$SLURM_JOB_ID
 ```
 
 2) Submit it:
