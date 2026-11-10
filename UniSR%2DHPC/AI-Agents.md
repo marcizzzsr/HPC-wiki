@@ -1,6 +1,6 @@
 # AI Agents on the Cluster
 
-AI coding agents (e.g. Claude Code) can run directly on the cluster login node and operate on your behalf: write code, submit SLURM jobs, inspect logs, etc. Since the cluster is a shared environment, agents must follow the same usage rules as human users.
+AI coding agents (e.g. Claude Code, Codex, OpenCode) can run directly on the cluster login node and operate on your behalf: write code, submit SLURM jobs, inspect logs, etc. Since the cluster is a shared environment, agents must follow the same usage rules as human users.
 
 To make this easy, we maintain a shared set of **agent rules** that tell an agent how to behave on the cluster.
 
@@ -63,6 +63,51 @@ Then start it with `codex` from your project folder.
 ## Cluster rules
 
 Rules for Codex are not available yet: the agent-rules repository currently provides only the Claude Code version (`CLAUDE.md`).
+
+---
+
+# OpenCode
+
+[OpenCode](https://opencode.ai/) is an open-source AI coding agent that runs in your terminal, like Claude Code and Codex. Its key feature is that **it can connect to several subscriptions at the same time**, for example your GitHub Copilot subscription and your personal Claude subscription. You can then choose which model to use in each mode:
+
+- **Plan** mode: the agent analyzes and proposes changes without modifying files.
+- **Build** mode: the agent writes code and runs commands.
+
+For example, you can use a stronger model from one subscription for planning and a model from another subscription for building. This spreads your usage across subscriptions so your credits last longer. Press `Tab` to switch between the two modes, and use `/models` to pick the model for the current mode.
+
+## Installation
+
+Install OpenCode in your home directory by running the following command on the cluster:
+
+```bash
+curl -fsSL https://opencode.ai/v2/install | bash
+```
+
+Then start it with `opencode` from your project folder.
+
+For other installation methods and documentation, see https://opencode.ai/.
+
+## Connect your Claude subscription
+
+OpenCode uses your Claude subscription through the Claude Code CLI, so **Claude Code must already be installed on the same machine**. If it isn't, follow the [Claude Code installation](#claude-code) section above and log in once by running `claude`.
+
+1. Start OpenCode with `opencode`.
+2. Type `/connect` and press `Enter`.
+3. Select **Claude Agent** from the list.
+4. Follow the on-screen instructions.
+
+When it's done, the Claude models show up in `/models`.
+
+## Connect your GitHub Copilot subscription
+
+1. In OpenCode, type `/connect` again.
+2. Select **GitHub Copilot**.
+3. Follow the instructions: OpenCode shows a code and a GitHub URL. Open the URL in a browser on your own computer, enter the code, and authorize the app.
+4. Return to the terminal. The Copilot models now show up in `/models`.
+
+## Cluster rules
+
+Rules for OpenCode are not available yet: the agent-rules repository currently provides only the Claude Code version (`CLAUDE.md`).
 
 ---
 
