@@ -36,7 +36,6 @@ curl -fsSL https://claude.ai/install.sh | bash
 
 Then start it with `claude` from your project folder.
 
-
 ---
 
 # Codex
@@ -50,7 +49,6 @@ curl -fsSL https://chatgpt.com/codex/install.sh | sh
 ```
 
 Then start it with `codex` from your project folder.
-
 
 ---
 
@@ -92,7 +90,6 @@ When it's done, the Claude models show up in `/models`.
 2. Select **GitHub Copilot**.
 3. Follow the instructions: OpenCode shows a code and a GitHub URL. Open the URL in a browser on your own computer, enter the code, and authorize the app.
 4. Return to the terminal. The Copilot models now show up in `/models`.
-
 
 ---
 
