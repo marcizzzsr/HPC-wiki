@@ -36,15 +36,6 @@ curl -fsSL https://claude.ai/install.sh | bash
 
 Then start it with `claude` from your project folder.
 
-## Enable the cluster rules
-
-Claude Code automatically loads instructions from `CLAUDE.md` files at the start of every session. To enable the cluster rules, add the following line to your `~/.claude/CLAUDE.md` (create the file if it doesn't exist):
-
-```
-@/mnt/data/unisr-data/agent-rules/CLAUDE.md
-```
-
-The `@` syntax imports the shared file, so you will always get the latest version of the rules. You can add your own personal preferences below that line.
 
 ---
 
@@ -60,9 +51,6 @@ curl -fsSL https://chatgpt.com/codex/install.sh | sh
 
 Then start it with `codex` from your project folder.
 
-## Cluster rules
-
-Rules for Codex are not available yet: the agent-rules repository currently provides only the Claude Code version (`CLAUDE.md`).
 
 ---
 
@@ -105,9 +93,6 @@ When it's done, the Claude models show up in `/models`.
 3. Follow the instructions: OpenCode shows a code and a GitHub URL. Open the URL in a browser on your own computer, enter the code, and authorize the app.
 4. Return to the terminal. The Copilot models now show up in `/models`.
 
-## Cluster rules
-
-Rules for OpenCode are not available yet: the agent-rules repository currently provides only the Claude Code version (`CLAUDE.md`).
 
 ---
 
