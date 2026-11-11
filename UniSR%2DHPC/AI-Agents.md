@@ -1,6 +1,6 @@
 # AI Agents on the Cluster
 
-AI coding agents (e.g. Claude Code, Codex, OpenCode) can run directly on the cluster login node and operate on your behalf: write code, submit SLURM jobs, inspect logs, etc. Since the cluster is a shared environment, agents must follow the same usage rules as human users.
+AI coding agents (e.g. Claude Code, Codex, GitHub Copilot CLI, OpenCode) can run directly on the cluster login node and operate on your behalf: write code, submit SLURM jobs, inspect logs, etc. Since the cluster is a shared environment, agents must follow the same usage rules as human users.
 
 To make this easy, we maintain a shared set of **agent rules** that tell an agent how to behave on the cluster.
 
@@ -49,6 +49,22 @@ curl -fsSL https://chatgpt.com/codex/install.sh | sh
 ```
 
 Then start it with `codex` from your project folder.
+
+---
+
+# GitHub Copilot CLI
+
+## Installation
+
+Install GitHub Copilot CLI in your home directory by running the following command on the cluster:
+
+```bash
+curl -fsSL https://gh.io/copilot-install | bash
+```
+
+Then start it with `copilot` from your project folder and log in with your GitHub account when prompted.
+
+For other installation methods and documentation, see the reference repository: https://github.com/github/copilot-cli
 
 ---
 
